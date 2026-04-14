@@ -15,16 +15,32 @@
 // ============================================================================
 
 // Inclusão das bibliotecas padrão necessárias para entrada/saída, alocação de memória, manipulação de strings e tempo.
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // --- Constantes Globais ---
 // Definem valores fixos para o número de territórios, missões e tamanho máximo de strings, facilitando a manutenção.
 
+#define MAX_TERRITORIOS 5 // Número total de territórios no mapa.
+
 // --- Estrutura de Dados ---
 // Define a estrutura para um território, contendo seu nome, a cor do exército que o domina e o número de tropas.
+
+struct Territorio {
+    char nome[30]; // Nome do território.
+    char corExercito[10]; // Cor do exército que domina o território.
+    int numTropas; // Número de tropas presentes no território.
+};
 
 // --- Protótipos das Funções ---
 // Declarações antecipadas de todas as funções que serão usadas no programa, organizadas por categoria.
 // Funções de setup e gerenciamento de memória:
+void limparBufferEntrada() {
+    // Limpa o buffer de entrada para evitar problemas com leituras consecutivas de scanf e getchar.
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) { }
+}
 // Funções de interface com o usuário:
 // Funções de lógica principal do jogo:
 // Função utilitária:
@@ -38,6 +54,37 @@ int main() {
     // - Aloca a memória para o mapa do mundo e verifica se a alocação foi bem-sucedida.
     // - Preenche os territórios com seus dados iniciais (tropas, donos, etc.).
     // - Define a cor do jogador e sorteia sua missão secreta.
+    struct Territorio mapa[MAX_TERRITORIOS];
+    int totalTerritorios = 0;
+    int opcao;
+
+    printf("==============================\n");
+    printf("PROJETO WAR ESTRUTURADO - DESAFIO DE C\n");
+    printf("==============================\n");
+    printf("Bem-vindo ao War Estruturado!\n");
+    printf("==============================\n");
+    printf("Vamos cadastrar os 5 territórios iniciais do nosso mundo.\n");
+    printf("\n");
+
+    for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("Digite o nome do território %d: ", i + 1);
+        fgets(mapa[i].nome, 30, stdin);
+    
+        printf("Digite a cor do exército: ");
+        fgets(mapa[i].corExercito, 10, stdin);
+    
+        printf("Digite o número de tropas: ");
+        scanf("%d", &mapa[i].numTropas);
+        limparBufferEntrada();
+    }
+
+    for (int i = 0; i < MAX_TERRITORIOS; i++) {
+        printf("------------------------------\n");
+        printf("Território %d:\n", i + 1);
+        printf("Nome: %s", mapa[i].nome);
+        printf("Cor do Exército: %s", mapa[i].corExercito);
+        printf("Número de Tropas: %d\n", mapa[i].numTropas);
+    }
 
     // 2. Laço Principal do Jogo (Game Loop):
     // - Roda em um loop 'do-while' que continua até o jogador sair (opção 0) ou vencer.
